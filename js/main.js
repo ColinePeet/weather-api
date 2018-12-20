@@ -7,23 +7,27 @@ $('#envoyer').click(function (ev) {
   ev.preventDefault();
   //au click sur envoyer
   let reponse = $("#name").val()
-  $.getJSON("http://api.apixu.com/v1/current.json?key=6174f7eca2034a80b0793838182012&q=" + reponse)
+  $.getJSON("//api.apixu.com/v1/current.json?key=6174f7eca2034a80b0793838182012&q=" + reponse)
     .done(function (data) {
       let html = template(data);
       $("#container").html(html);
-      if ($("p:contains(rain)")) {
+      let condition = data.current.condition.text;
+
+  //$("main").removeClass("").addClass(condition)
+
+      if (condition.includes("rain")) {
         console.log('il pleut');
         $("main").removeClass("cloudy");
         $("main").removeClass("sunny");
         $("main").addClass("rain");
       }
-      else if ($("p:contains(cloudy)")) {
+      else if (condition.includes("cloudy")) {
         console.log('nuageux');
         $("main").removeClass("rain");
         $("main").removeClass("sunny");
         $("main").addClass("cloudy");
       }
-      if ($("p:contains(sunny)")) {
+      if (condition.includes("sunny")) {
         $("main").removeClass("cloudy");
         $("main").removeClass("rain");
         $("main").addClass("sunny");
